@@ -1,0 +1,5 @@
+File: /root/puzzle-solve/data/phase3_2_second_blob.txt
+Cipher: aes-128-cbc
+Password: in case you manage to crack this the private keys belong to half and better half and they also need funds to live
+Content:
+Î¬u;Ø#ü@ÑJê$ßä|.v¿âá¨º0¦ÃfÜ×qB½çåË$¯&7Ç¨/.Xú(*AµÁ02À.Ð[aÔãE

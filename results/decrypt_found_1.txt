@@ -1,0 +1,6 @@
+File: /root/puzzle-solve/data/salphaselon_encrypted.txt
+Cipher: aes-256-cbc
+Password: ZION
+Content:
+*£ûs¾½h#ì¦ºeç1ê_u:$ekÁÉ¤´6¾íÞNN»CsÎ© ë¦²
+® ºfdØáfVT¬uä2Ñ°;Ìsñ&Jïï¨o

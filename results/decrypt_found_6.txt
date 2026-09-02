@@ -1,0 +1,5 @@
+File: /root/puzzle-solve/data/phase3_2_second_blob.txt
+Cipher: aes-256-cbc
+Password: wonderland
+Content:
+¶=(à¼ä¸G¯=Ô¶äó*6£f"¾Y¹î¦|´5Ny{{roÐÈ+ßÍ[½¹k|t+Z¥Ñ*º½ %Y°Æ´æ

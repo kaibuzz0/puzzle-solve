@@ -1,0 +1,102 @@
+#!/usr/bin/env python3
+"""
+Beaufort Cipher Solver for GSMG.IO Puzzle
+The phase 3.2.1 box-drawing characters need EBCDIC 1141 encoding
+and Beaufort cipher with key THEMATRIXHASYOU
+"""
+
+EBCDIC_1141 = {
+    0x00: '\x00', 0x01: '\x01', 0x02: '\x02', 0x03: '\x03', 0x04: '\x9c',
+    0x05: '\t', 0x06: '\x86', 0x07: '\x7f', 0x08: '\x97', 0x09: '\x8d',
+    0x0a: '\x8e', 0x0b: '\x0b', 0x0c: '\x0c', 0x0d: '\r', 0x0e: '\x0e',
+    0x0f: '\x0f', 0x10: '\x10', 0x11: '\x11', 0x12: '\x12', 0x13: '\x13',
+    0x14: '\x9d', 0x15: '\x85', 0x16: '\x08', 0x17: '\x87', 0x18: '\x18',
+    0x19: '\x19', 0x1a: '\x92', 0x1b: '\x8f', 0x1c: '\x1c', 0x1d: '\x1d',
+    0x1e: '\x1e', 0x1f: '\x1f', 0x20: '\x80', 0x21: '\x81', 0x22: '\x82',
+    0x23: '\x83', 0x24: '\x84', 0x25: '\x0a', 0x26: '\x17', 0x27: '\x1b',
+    0x28: '\x88', 0x29: '\x89', 0x2a: '\x8a', 0x2b: '\x8b', 0x2c: '\x8c',
+    0x2d: '\x05', 0x2e: '\x06', 0x2f: '\x07', 0x30: '\x90', 0x31: '\x91',
+    0x32: '\x16', 0x33: '\x93', 0x34: '\x94', 0x35: '\x95', 0x36: '\x96',
+    0x37: '\x04', 0x38: '\x98', 0x39: '\x99', 0x3a: '\x9a', 0x3b: '\x9b',
+    0x3c: '\x14', 0x3d: '\x15', 0x3e: '\x9e', 0x3f: '\x1a', 0x40: ' ',
+    0x41: '\xa0', 0x42: '\xe2', 0x43: '\xe4', 0x44: '\xe0', 0x45: '\xe1',
+    0x46: '\xe3', 0x47: '\xe5', 0x48: '\xe7', 0x49: '\xf1', 0x4a: 'a',
+    0x4b: '.', 0x4c: '<', 0x4d: '(', 0x4e: '+', 0x4f: '|', 0x50: '&',
+    0x51: '\xe9', 0x52: '\xea', 0x53: '\xeb', 0x54: '\xe8', 0x55: '\xed',
+    0x56: '\xee', 0x57: '\xef', 0x58: '\xec', 0x59: '\xdf', 0x5a: '!',
+    0x5b: '$', 0x5c: '*', 0x5d: ')', 0x5e: ';', 0x5f: '\xac', 0x60: '-',
+    0x61: '/', 0x62: '\xc2', 0x63: '\xc4', 0x64: '\xc0', 0x65: '\xc1',
+    0x66: '\xc3', 0x67: '\xc5', 0x68: '\xc7', 0x69: '\xd1', 0x6a: 'A',
+    0x6b: ',', 0x6c: '%', 0x6d: '_', 0x6e: '>', 0x6f: '?', 0x70: '\xa6',
+    0x71: '\xf8', 0x72: '\xc9', 0x73: '\xca', 0x74: '\xcb', 0x75: '\xc8',
+    0x76: '\xcd', 0x77: '\xce', 0x78: '\xcf', 0x79: '\xcc', 0x7a: '`',
+    0x7b: ':', 0x7c: '#', 0x7d: '@', 0x7e: "'", 0x7f: '=', 0x80: '"',
+    0x81: '\xd8', 0x82: 'b', 0x83: 'c', 0x84: 'd', 0x85: 'e', 0x86: 'f',
+    0x87: 'g', 0x88: 'h', 0x89: 'i', 0x8a: '\xab', 0x8b: '\xbb',
+    0x8c: '\xf0', 0x8d: '\xfd', 0x8e: '\xfe', 0x8f: '\xb1', 0x90: '\xb0',
+    0x91: 'j', 0x92: 'k', 0x93: 'l', 0x94: 'm', 0x95: 'n', 0x96: 'o',
+    0x97: 'p', 0x98: 'q', 0x99: 'r', 0x9a: '\xaa', 0x9b: '\xba',
+    0x9c: '\xe6', 0x9d: '\xb8', 0x9e: '\xc6', 0x9f: '\xa4', 0xa0: '~',
+    0xa1: 's', 0xa2: 't', 0xa3: 'u', 0xa4: 'v', 0xa5: 'w', 0xa6: 'x',
+    0xa7: 'y', 0xa8: 'z', 0xa9: '\xa1', 0xaa: '\xbf', 0xab: '\xd0',
+    0xac: '\xdd', 0xad: '\xde', 0xae: '\xae', 0xaf: '\xa2', 0xb0: '\\',
+    0xb1: '\xa3', 0xb2: '{', 0xb3: '}', 0xb4: '\xa5', 0xb5: '\xa7',
+    0xb6: '\xa8', 0xb7: '\xa9', 0xb8: '\xad', 0xb9: '\xb4', 0xba: '\xb6',
+    0xbb: '\xb7', 0xbc: '\xb9', 0xbd: '\xb2', 0xbe: '\xb3', 0xbf: '\xb5',
+    0xc0: '\xb7', 0xc1: '\x00', 0xc2: '\x00', 0xc3: '\x00', 0xc4: '\x00',
+    0xc5: '\x00', 0xc6: '\x00', 0xc7: '\x00', 0xc8: '\x00', 0xc9: '\x00',
+    0xca: '\x00', 0xcb: '\x00', 0xcc: '\x00', 0xcd: '\x00', 0xce: '\x00',
+    0xcf: '\x00', 0xd0: '}', 0xd1: ']', 0xd2: '[', 0xd3: '{', 0xd4: 'J',
+    0xd5: 'K', 0xd6: 'L', 0xd7: 'M', 0xd8: 'N', 0xd9: 'O', 0xda: 'P',
+    0xdb: 'Q', 0xdc: 'R', 0xdd: 'S', 0xde: 'T', 0xdf: 'U', 0xe0: 'V',
+    0xe1: 'W', 0xe2: 'X', 0xe3: 'Y', 0xe4: 'Z', 0xe5: '0', 0xe6: '1',
+    0xe7: '2', 0xe8: '3', 0xe9: '4', 0xea: '5', 0xeb: '6', 0xec: '7',
+    0xed: '8', 0xee: '9', 0xef: '\x00', 0xf0: '\x00', 0xf1: '\x00',
+    0xf2: '\x00', 0xf3: '\x00', 0xf4: '\x00', 0xf5: '\x00', 0xf6: '\x00',
+    0xf7: '\x00', 0xf8: '\x00', 0xf9: '\x00', 0xfa: '\x00', 0xfb: '\x00',
+    0xfc: '\x00', 0xfd: '\x00', 0xfe: '\x00', 0xff: '\x00',
+}
+
+# Build reverse lookup
+EBCDIC_1141_REV = {v: k for k, v in EBCDIC_1141.items()}
+
+def beaufort_decrypt(ciphertext, key):
+    """Standard Beaufort cipher decryption"""
+    result = []
+    key = key.upper()
+    for i, c in enumerate(ciphertext.upper()):
+        if c.isalpha():
+            k = key[i % len(key)]
+            # Beaufort: plaintext = (key - ciphertext) mod 26
+            p = (ord(k) - ord(c)) % 26
+            result.append(chr(p + ord('A')))
+        else:
+            result.append(c)
+    return ''.join(result)
+
+def decode_box_drawing_to_ebcdic(box_chars):
+    """
+    The box drawing characters in the puzzle encode EBCDIC 1141 bytes.
+    Map box drawing chars to their codepoints, then decode as EBCDIC 1141.
+    """
+    result = []
+    for c in box_chars:
+        cp = ord(c)
+        # Box drawing chars are in U+2500-U+257F range
+        if 0x2500 <= cp <= 0x257F:
+            # Map to byte value (lower 8 bits of codepoint)
+            byte_val = cp - 0x2500
+            if byte_val in EBCDIC_1141:
+                result.append(EBCDIC_1141[byte_val])
+            else:
+                result.append('?')
+        else:
+            result.append(c)
+    return ''.join(result)
+
+if __name__ == "__main__":
+    # Test with known puzzle text
+    print("Beaufort cipher module loaded.")
+    print("Key: THEMATRIXHASYOU")
+    print("Use decode_box_drawing_to_ebcdic() to convert box chars first,")
+    print("then beaufort_decrypt() to decrypt.")

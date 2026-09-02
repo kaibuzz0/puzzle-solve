@@ -1,0 +1,6 @@
+File: /root/puzzle-solve/data/phase3_2_second_blob.txt
+Cipher: aes-256-ecb
+Password: ce1d801d152db837c0fc85ec31d69aba1a610d18a7759851d8cd07adaee9d8fd
+Content:
+´½J³@Í¸	h`7DYhÓMìÌ²JF
+vSa433@[°Äp¥x	g3 rgËðD®5}ò,5BÃÝÕûNä
