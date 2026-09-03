@@ -1,5 +1,0 @@
-File: /root/puzzle-solve/data/phase3_2_second_blob.txt
-Cipher: aes-128-ecb
-Password: GSMGIO5BTCPUZZLECHALLENGE
-Content:
-²-ré6l.äía0JË®2aH'åÚGJp+ÇwÞO)!YçThvRyìÁÙN0Ç7+~uÓéhÏLª@¤çãÆ

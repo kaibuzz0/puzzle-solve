@@ -1,7 +1,0 @@
-File: /root/puzzle-solve/data/salphaselon_encrypted.txt
-Cipher: aes-256-ecb
-Password: 60248adb1a1de3b8afec7d4893817bb5b76160464bbb57ba5975a42d10a2aa39
-Content:
-^%>
-âlÜ°`. CùáÉ_¸ç~í+L Ö2(HiOÌõ{¬;ò$NÇ
-¯ÏÍ¦<NhùIÏSüÅecy(
